@@ -80,3 +80,59 @@ func (g *Graph) PrintGraph() {
 		fmt.Println()
 	}
 }
+
+func (g *Graph) doesEdgeExist(from, to string) bool {
+	neighbors := g.GetNeighbors(from)
+	if _, exists := neighbors[to]; exists {
+		return true
+	} else {
+		return false
+	}
+
+}
+
+func (g *Graph) IsPathValid(path []string) bool {
+	if len(path) == 0 {
+		return false
+	} else {
+		prevNode := path[0]
+		var i int = 1
+		for ; i < len(path); i++ {
+			nextNode := path[i]
+			// fmt.Println(prevNode, path[i])
+			if g.doesEdgeExist(prevNode, nextNode) {
+				prevNode = nextNode
+				continue
+			} else {
+				return false
+			}
+
+		}
+		return true
+	}
+
+}
+
+func (g *Graph) ComputePathCost(path []string) (float64, error) {
+	if !g.weighted {
+		return 0, errors.New("the graph is not weighted")
+	}
+	if len(path) < 2 {
+		return 0, errors.New("the path is too short")
+	}
+
+	sum := 0
+	for i := 0; i < len(path)-1; i++ {
+		from, to := path[i], path[i+1]
+
+		// Directly access adjacency list
+		weight, exists := g.adjList[from][to]
+		if !exists {
+			return 0, errors.New("the path does not exist")
+		}
+
+		sum += weight
+	}
+
+	return float64(sum), nil
+}
