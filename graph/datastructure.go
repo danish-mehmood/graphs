@@ -130,7 +130,7 @@ func (g *Graph) ComputePathCost(path []string) (float64, error) {
 		if !exists {
 			return 0, errors.New("the path does not exist")
 		}
-
+		fmt.Println(from, to, weight)
 		sum += weight
 	}
 
