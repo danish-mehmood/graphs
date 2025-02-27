@@ -62,4 +62,6 @@ func main() {
 	fmt.Println(pathvalid)
 	cost, err := g.ComputePathCost([]string{"0", "1", "3", "2", "4", "7"})
 	fmt.Println(cost, err)
+	// g.DFSRecursiveWrapper("0")
+	g.BreadthFirstSearch("0")
 }

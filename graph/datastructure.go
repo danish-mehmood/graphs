@@ -32,6 +32,10 @@ func (g *Graph) AddNode(node string) {
 	}
 }
 
+func (g *Graph) totalNodes() int {
+	return len(g.adjList)
+}
+
 func (g *Graph) AddEdge(from, to string, weight int) error {
 	if !g.weighted {
 		weight = 1
@@ -135,4 +139,24 @@ func (g *Graph) ComputePathCost(path []string) (float64, error) {
 	}
 
 	return float64(sum), nil
+}
+
+func (g *Graph) DFSRecursiveWrapper(start string) {
+	visited := make(map[string]bool)
+	g.dfsRecursive(start, visited)
+}
+
+func (g *Graph) dfsRecursive(index string, seen map[string]bool) {
+	if _, exists := g.adjList[index]; exists {
+		seen[index] = true
+		edges := g.adjList[index]
+		fmt.Println("->", index)
+		for key, _ := range edges {
+			if _, exists = seen[key]; !exists {
+				g.dfsRecursive(key, seen)
+			}
+		}
+
+	}
+
 }
