@@ -160,3 +160,25 @@ func (g *Graph) dfsRecursive(index string, seen map[string]bool) {
 	}
 
 }
+
+func (g *Graph) BreadthFirstSearch(start string) {
+	seen := make(map[string]bool)
+	queue := make([]string, g.totalNodes())
+
+	queue = append(queue, start)
+	seen[start] = true
+	fmt.Println("->", start)
+	for len(queue) > 0 {
+		current := queue[0]
+		queue = queue[1:]
+		edges := g.adjList[current]
+		for edge, _ := range edges {
+			if _, exists := seen[edge]; !exists {
+				queue = append(queue, edge)
+				seen[edge] = true
+				fmt.Println("->", edge)
+			}
+		}
+	}
+
+}
